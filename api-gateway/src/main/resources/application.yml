@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webmvc: # Full path required for the MVC starter
+          routes:
+            - id: user-service-route
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/users/**
+          # DO NOT add the filters: - name: LoadBalancer section here
+          # It is causing the "Unable to find operation" crash
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+
+#server:
+#  port: 8080
+#
+#spring:
+#  application:
+#    name: api-gateway
+#  cloud:
+#    gateway:
+#      server:
+#        webmvc: # Note the full path 'server.webmvc'
+#          routes:
+#            - id: user-service-route
+#              uri: lb://USER-SERVICE
+#              predicates:
+#                - Path=/users/**
+#              # In some Spring Cloud versions, MVC requires an explicit LB filter
+#              filters:
+#                - name: LoadBalancer
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#  instance:
+#    prefer-ip-address: true
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: gateway, health
