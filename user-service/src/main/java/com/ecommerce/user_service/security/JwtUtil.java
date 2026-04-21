@@ -10,13 +10,17 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-@Component
+//@Component
 public class JwtUtil {
 
     // Use SecretKey type for the modern API
-    private final SecretKey key = Keys.hmacShaKeyFor(
-            "your-256-bit-secret-string-at-least-32-characters-long".getBytes(StandardCharsets.UTF_8)
-    );
+//    private final SecretKey key = Keys.hmacShaKeyFor(
+//            "your-256-bit-secret-string-at-least-32-characters-long".getBytes(StandardCharsets.UTF_8)
+//    );
+
+
+    private final SecretKey key = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
+
 
     public String generateToken(String username) {
         return Jwts.builder()
